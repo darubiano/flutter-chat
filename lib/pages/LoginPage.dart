@@ -1,7 +1,10 @@
 import 'package:chat/pages/RegisterPage.dart';
+import 'package:chat/pages/UsuariosPage.dart';
+import 'package:chat/services/AuthService.dart';
 import 'package:chat/widgets/CustomInput.dart';
 import 'package:chat/widgets/CustomWidgets.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class LoginPage extends StatelessWidget {
   static const String id = 'Login';
@@ -14,13 +17,14 @@ class LoginPage extends StatelessWidget {
         child: SingleChildScrollView(
           physics: BouncingScrollPhysics(),
           child: Container(
-            height: size.height*0.9,
+            height: size.height * 0.9,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 logo('Messenger'),
                 _Form(),
-                labels(context, RegisterPage.id, 'No tienes cuenta?', 'Crear una ahora!'),
+                labels(context, RegisterPage.id, 'No tienes cuenta?',
+                    'Crear una ahora!'),
                 Container(
                   height: 35,
                   child: Text('Terminos y condiciones de uso',
@@ -47,6 +51,7 @@ class __FormState extends State<_Form> {
   final passCtrl = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    final authService = Provider.of<AuthService>(context);
     return Container(
       margin: EdgeInsets.only(top: 40),
       padding: EdgeInsets.symmetric(horizontal: 50),
@@ -64,9 +69,25 @@ class __FormState extends State<_Form> {
             textController: passCtrl,
             isPassword: true,
           ),
-          buttonCustom('Ingreso', (){
-            print(emailCtrl.text);
-          })
+          buttonCustom(
+            'Ingreso',
+            authService.autenticando
+                ? null
+                : () async{
+                  // ocultar teclado
+                    FocusScope.of(context).unfocus();
+                    //print(emailCtrl.text);
+                    //print(passCtrl.text);
+                    final loginOk = await authService.login(emailCtrl.text.trim(), passCtrl.text.trim());
+                    if (loginOk) {
+                      // TODO: Conectar a nuestro socket server
+                      Navigator.pushReplacementNamed(context, UsuariosPage.id);
+                    } else {
+                      // Mostrar alerta
+                      mostrarAlerta(context, 'Login incorrecto', 'Revise sus credenciales');
+                    }
+                  },
+          )
         ],
       ),
     );
