@@ -1,6 +1,7 @@
 import 'package:chat/pages/LoginPage.dart';
 import 'package:chat/pages/UsuariosPage.dart';
 import 'package:chat/services/AuthService.dart';
+import 'package:chat/services/SocketService.dart';
 import 'package:chat/widgets/CustomInput.dart';
 import 'package:chat/widgets/CustomWidgets.dart';
 import 'package:flutter/material.dart';
@@ -53,6 +54,7 @@ class __FormState extends State<_Form> {
   @override
   Widget build(BuildContext context) {
     final authService = Provider.of<AuthService>(context);
+    final socket = Provider.of<SocketService>(context);
     return Container(
       margin: EdgeInsets.only(top: 40),
       padding: EdgeInsets.symmetric(horizontal: 50),
@@ -89,7 +91,7 @@ class __FormState extends State<_Form> {
                         emailCtrl.text.trim(),
                         passCtrl.text.trim());
                     if (registerOK == true) {
-                      // TODO: conectar al socket server
+                      socket.connet();
                       Navigator.pushReplacementNamed(context, UsuariosPage.id);
                     } else {
                       // Mostrar alerta
