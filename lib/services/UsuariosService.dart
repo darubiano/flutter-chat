@@ -7,8 +7,7 @@ import 'package:chat/models/Usuario.dart';
 class UsuariosService {
   Future<List<Usuario>> getUsuarios() async {
     try {
-      final resp = await http.get(
-        '${Enviroments.apiURL}/usuarios',
+      final resp = await http.get(Uri.https('${Enviroments.apiURL}','/api/usuarios'),
         headers: {
           'Content-Type': 'application/json',
           'x-token': await AuthService.getToken()

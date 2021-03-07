@@ -5,11 +5,11 @@ import 'dart:io';
 // Para probar en local 'http://192.168.0.8:3000/api'
 class Enviroments {
   static String apiURL= Platform.isAndroid 
-                        ? 'https://flutter-chat-node.herokuapp.com/api' 
-                        : 'https://flutter-chat-node.herokuapp.com/api';
+                        ? "flutter-chat-node.herokuapp.com"
+                        : "flutter-chat-node.herokuapp.com";
   static String socketURL = Platform.isAndroid 
-                        ? 'https://flutter-chat-node.herokuapp.com/' 
-                        : 'https://flutter-chat-node.herokuapp.com/';
+                        ? "flutter-chat-node.herokuapp.com/" 
+                        : "flutter-chat-node.herokuapp.com/";
                   
 }
 

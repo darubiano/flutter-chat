@@ -60,6 +60,7 @@ Widget buttonCustom(String text, Function onPressed) {
             textAlign: TextAlign.center),
       ),
       onPressed: onPressed);
+      
 }
 
 mostrarAlerta(BuildContext context, String titulo, String subtitulo) {
